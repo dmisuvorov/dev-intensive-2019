@@ -14,14 +14,14 @@ fun Date.format(pattern: String = "HH:mm:ss dd.MM.yy"): String {
     return dateFormat.format(this)
 }
 
-fun Date.add(value: Int, units: TimeUnit = TimeUnit.SECOND): Date {
+fun Date.add(value: Int, units: TimeUnits = TimeUnits.SECOND): Date {
     var time = this.time
     time +=
         when(units) {
-            TimeUnit.SECOND -> value * SECOND
-            TimeUnit.MINUTE -> value * MINUTE
-            TimeUnit.HOUR -> value * HOUR
-            TimeUnit.DAY -> value * DAY
+            TimeUnits.SECOND -> value * SECOND
+            TimeUnits.MINUTE -> value * MINUTE
+            TimeUnits.HOUR -> value * HOUR
+            TimeUnits.DAY -> value * DAY
         }
     this.time = time
     return this
@@ -34,29 +34,29 @@ fun Date.humanizeDiff(date: Date = Date()) : String {
                     diff <= 1 * SECOND -> "только что"
                     diff <= 45 * SECOND -> "несколько секунд назад"
                     diff <= 75 * SECOND -> "минуту назад"
-                    diff <= 45 * MINUTE -> "${diff / MINUTE} ${pluralsNumber((diff / MINUTE).toInt(), TimeUnit.MINUTE)} назад"
+                    diff <= 45 * MINUTE -> "${diff / MINUTE} ${pluralsNumber((diff / MINUTE).toInt(), TimeUnits.MINUTE)} назад"
                     diff <= 75 * MINUTE -> "час назад"
-                    diff <= 22 * HOUR -> "${diff / HOUR} ${pluralsNumber((diff / HOUR).toInt(), TimeUnit.HOUR)} назад"
+                    diff <= 22 * HOUR -> "${diff / HOUR} ${pluralsNumber((diff / HOUR).toInt(), TimeUnits.HOUR)} назад"
                     diff <= 26 * HOUR -> "день назад"
-                    diff <= 360 * DAY -> "${diff / DAY} ${pluralsNumber((diff / DAY).toInt(), TimeUnit.DAY)} назад"
+                    diff <= 360 * DAY -> "${diff / DAY} ${pluralsNumber((diff / DAY).toInt(), TimeUnits.DAY)} назад"
                     else -> "более года назад"
                 }
             else {
                 when {
                     diff.absoluteValue >= 360 * DAY -> "более чем через год"
-                    diff.absoluteValue >= 26 * HOUR -> "через ${diff.absoluteValue / DAY} ${pluralsNumber((diff.absoluteValue / DAY).toInt(), TimeUnit.DAY)}"
+                    diff.absoluteValue >= 26 * HOUR -> "через ${diff.absoluteValue / DAY} ${pluralsNumber((diff.absoluteValue / DAY).toInt(), TimeUnits.DAY)}"
                     diff.absoluteValue >= 22 * HOUR -> "через день"
-                    diff.absoluteValue >= 75 * MINUTE -> "через ${diff.absoluteValue / HOUR} ${pluralsNumber((diff.absoluteValue / HOUR).toInt(), TimeUnit.HOUR)}"
+                    diff.absoluteValue >= 75 * MINUTE -> "через ${diff.absoluteValue / HOUR} ${pluralsNumber((diff.absoluteValue / HOUR).toInt(), TimeUnits.HOUR)}"
                     diff.absoluteValue >= 45 * MINUTE -> "через час"
-                    diff.absoluteValue >= 75 * SECOND -> "через ${diff.absoluteValue / MINUTE} ${pluralsNumber((diff.absoluteValue / MINUTE).toInt(), TimeUnit.MINUTE)}"
+                    diff.absoluteValue >= 75 * SECOND -> "через ${diff.absoluteValue / MINUTE} ${pluralsNumber((diff.absoluteValue / MINUTE).toInt(), TimeUnits.MINUTE)}"
                     diff.absoluteValue >= 45 * SECOND -> "через минуту"
                     else -> "через несколько секунд"
                 }
             }
 }
 
-private fun pluralsNumber(value: Int, number: TimeUnit) = when(number) {
-    TimeUnit.SECOND ->
+private fun pluralsNumber(value: Int, number: TimeUnits) = when(number) {
+    TimeUnits.SECOND ->
         if (value in 11..19) {
             "секунд"
         } else {
@@ -66,7 +66,7 @@ private fun pluralsNumber(value: Int, number: TimeUnit) = when(number) {
                 else -> "секунд"
             }
         }
-    TimeUnit.MINUTE ->
+    TimeUnits.MINUTE ->
         if (value in 11..19) {
             "минут"
         } else {
@@ -76,7 +76,7 @@ private fun pluralsNumber(value: Int, number: TimeUnit) = when(number) {
                 else -> "минут"
             }
         }
-    TimeUnit.HOUR ->
+    TimeUnits.HOUR ->
         if (value in 11..19) {
             "часов"
         } else {
@@ -86,7 +86,7 @@ private fun pluralsNumber(value: Int, number: TimeUnit) = when(number) {
                 else -> "часов"
             }
         }
-    TimeUnit.DAY ->
+    TimeUnits.DAY ->
         if (value in 11..19) {
             "дней"
         } else {
@@ -98,7 +98,7 @@ private fun pluralsNumber(value: Int, number: TimeUnit) = when(number) {
         }
 }
 
-enum class TimeUnit {
+enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
