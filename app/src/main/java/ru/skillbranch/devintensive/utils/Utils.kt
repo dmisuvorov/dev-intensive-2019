@@ -68,8 +68,8 @@ object Utils {
             .joinToString("")
 
     fun toInitials(firstName: String?, lastName: String?) : String? {
-        val fullName = (firstName ?: "") + " " + (lastName ?: "")
-        return when(namePattern(fullName.trim())) {
+        val fullName = ((firstName ?: "") + " " + (lastName ?: "")).trim()
+        return when(namePattern(fullName)) {
             MatchName.FULL_MATCH -> "${firstName!!.toCharArray()[0].toUpperCase()}${lastName!!.toCharArray()[0].toUpperCase()}"
             MatchName.PART_MATCH -> "${fullName.toCharArray()[0].toUpperCase()}"
             MatchName.NO_MATCH -> null
