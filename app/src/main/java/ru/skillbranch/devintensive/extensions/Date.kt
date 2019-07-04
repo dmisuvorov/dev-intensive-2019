@@ -34,21 +34,21 @@ fun Date.humanizeDiff(date: Date = Date()) : String {
                     diff <= 1 * SECOND -> "только что"
                     diff <= 45 * SECOND -> "несколько секунд назад"
                     diff <= 75 * SECOND -> "минуту назад"
-                    diff <= 45 * MINUTE -> "${diff / MINUTE} ${pluralsNumber((diff / MINUTE).toInt(), TimeUnits.MINUTE)} назад"
+                    diff <= 45 * MINUTE -> "${TimeUnits.MINUTE.plural((diff / MINUTE).toInt())} назад"
                     diff <= 75 * MINUTE -> "час назад"
-                    diff <= 22 * HOUR -> "${diff / HOUR} ${pluralsNumber((diff / HOUR).toInt(), TimeUnits.HOUR)} назад"
+                    diff <= 22 * HOUR -> "${TimeUnits.HOUR.plural((diff / HOUR).toInt())} назад"
                     diff <= 26 * HOUR -> "день назад"
-                    diff <= 360 * DAY -> "${diff / DAY} ${pluralsNumber((diff / DAY).toInt(), TimeUnits.DAY)} назад"
+                    diff <= 360 * DAY -> "${TimeUnits.HOUR.plural((diff / DAY).toInt())} назад"
                     else -> "более года назад"
                 }
             else {
                 when {
                     diff.absoluteValue >= 360 * DAY -> "более чем через год"
-                    diff.absoluteValue >= 26 * HOUR -> "через ${diff.absoluteValue / DAY} ${pluralsNumber((diff.absoluteValue / DAY).toInt(), TimeUnits.DAY)}"
+                    diff.absoluteValue >= 26 * HOUR -> "через ${TimeUnits.DAY.plural((diff.absoluteValue / DAY).toInt())}"
                     diff.absoluteValue >= 22 * HOUR -> "через день"
-                    diff.absoluteValue >= 75 * MINUTE -> "через ${diff.absoluteValue / HOUR} ${pluralsNumber((diff.absoluteValue / HOUR).toInt(), TimeUnits.HOUR)}"
+                    diff.absoluteValue >= 75 * MINUTE -> "через ${TimeUnits.HOUR.plural((diff.absoluteValue / HOUR).toInt())}"
                     diff.absoluteValue >= 45 * MINUTE -> "через час"
-                    diff.absoluteValue >= 75 * SECOND -> "через ${diff.absoluteValue / MINUTE} ${pluralsNumber((diff.absoluteValue / MINUTE).toInt(), TimeUnits.MINUTE)}"
+                    diff.absoluteValue >= 75 * SECOND -> "через ${TimeUnits.MINUTE.plural((diff.absoluteValue / MINUTE).toInt())}"
                     diff.absoluteValue >= 45 * SECOND -> "через минуту"
                     else -> "через несколько секунд"
                 }
