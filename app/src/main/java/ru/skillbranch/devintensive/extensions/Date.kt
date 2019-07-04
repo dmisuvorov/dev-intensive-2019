@@ -55,14 +55,6 @@ fun Date.humanizeDiff(date: Date = Date()) : String {
             }
 }
 
-fun TimeUnits.plural(value: Int) =
-    when(this) {
-        TimeUnits.SECOND -> "$value ${pluralsNumber(value, TimeUnits.SECOND)}"
-        TimeUnits.MINUTE -> "$value ${pluralsNumber(value, TimeUnits.MINUTE)}"
-        TimeUnits.HOUR -> "$value ${pluralsNumber(value, TimeUnits.HOUR)}"
-        TimeUnits.DAY -> "$value ${pluralsNumber(value, TimeUnits.DAY)}"
-    }
-
 private fun pluralsNumber(value: Int, number: TimeUnits) = when(number) {
     TimeUnits.SECOND ->
         if (value in 11..19) {
@@ -111,5 +103,13 @@ enum class TimeUnits {
     SECOND,
     MINUTE,
     HOUR,
-    DAY
+    DAY;
+
+    fun plural(value: Int) =
+        when(this) {
+            SECOND -> "$value ${pluralsNumber(value, SECOND)}"
+            MINUTE -> "$value ${pluralsNumber(value, MINUTE)}"
+            HOUR -> "$value ${pluralsNumber(value, HOUR)}"
+            DAY -> "$value ${pluralsNumber(value, DAY)}"
+        }
 }

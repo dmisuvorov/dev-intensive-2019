@@ -6,5 +6,3 @@ fun String.truncate(countTruncation: Int = 16) : String {
 }
 
 fun String.stripHtml() = this.replace("<.*?>".toRegex(), "").replace("\\s\\s+".toRegex(), " ")
-
-fun plural(timeUnits: TimeUnits, value: Int) = timeUnits.plural(value)
