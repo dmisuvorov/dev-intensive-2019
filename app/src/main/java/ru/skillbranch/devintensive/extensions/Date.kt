@@ -98,7 +98,6 @@ private fun pluralsNumber(value: Int, number: TimeUnits) = when(number) {
         }
 }
 
-
 enum class TimeUnits {
     SECOND,
     MINUTE,
