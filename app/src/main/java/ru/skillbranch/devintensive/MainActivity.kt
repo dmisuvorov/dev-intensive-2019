@@ -48,14 +48,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         messageEt.setOnEditorActionListener(this)
     }
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.d("M_MainActivity","onRestart")
-    }
-
     override fun onStart() {
         super.onStart()
         Log.d("M_MainActivity","onStart")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d("M_MainActivity","onRestart")
     }
 
     override fun onResume() {
