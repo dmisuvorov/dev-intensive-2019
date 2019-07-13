@@ -48,14 +48,14 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     enum class Question(val question: String, val answers: List<String>) {
         NAME("Как меня зовут?", listOf("Бендер", "Bender")) {
-            override fun validate(answer: String): Boolean = answer[0].isUpperCase()
+            override fun validate(answer: String): Boolean = if (answer.isNotEmpty()) answer[0].isUpperCase() else false
 
             override fun validatedString(): String = "Имя должно начинаться с заглавной буквы"
 
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
-            override fun validate(answer: String): Boolean = answer[0].isLowerCase()
+            override fun validate(answer: String): Boolean = if (answer.isNotEmpty()) answer[0].isLowerCase() else false
 
             override fun validatedString(): String = "Профессия должна начинаться со строчной буквы"
 

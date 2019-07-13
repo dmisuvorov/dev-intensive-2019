@@ -6,13 +6,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.getRootView
 import ru.skillbranch.devintensive.extensions.hideKeyboard
+import ru.skillbranch.devintensive.extensions.isKeyboardOpen
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEditorActionListener {
@@ -22,6 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     lateinit var sendBtn: ImageView
 
     lateinit var benderObj: Bender
+
+    private lateinit var listenerOfVisibleKeyboard: ViewTreeObserver.OnGlobalLayoutListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +51,20 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
 
         messageEt.setImeActionLabel("Done", EditorInfo.IME_ACTION_DONE)
         messageEt.setOnEditorActionListener(this)
+
+        listenerOfVisibleKeyboard = object : ViewTreeObserver.OnGlobalLayoutListener {
+            private var lastState = isKeyboardOpen()
+
+            override fun onGlobalLayout() {
+                val isOpen = isKeyboardOpen()
+                if (isOpen == lastState) {
+                    return
+                } else {
+                    Log.d("M_MainActivity", if (isOpen) "Keyboard open" else "Keyboard closed")
+                    lastState = isOpen
+                }
+            }
+        }
     }
 
     override fun onStart() {
@@ -61,11 +80,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
     override fun onResume() {
         super.onResume()
         Log.d("M_MainActivity","onResume")
+        val view = getRootView()
+        view.viewTreeObserver.addOnGlobalLayoutListener(listenerOfVisibleKeyboard)
     }
 
     override fun onPause() {
         super.onPause()
         Log.d("M_MainActivity","onPause")
+        val view = getRootView()
+        view.viewTreeObserver.removeOnGlobalLayoutListener(listenerOfVisibleKeyboard)
     }
 
     override fun onStop() {
@@ -112,4 +135,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, TextView.OnEdito
         benderImage.setColorFilter(Color.rgb(r,g,b), PorterDuff.Mode.MULTIPLY)
         textTxt.text = phrase
     }
+
+
 }
