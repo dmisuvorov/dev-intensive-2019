@@ -18,7 +18,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                     "Отлично - ты справился\n${question.question}" to status.color
                 }
                 !question.validate(answer) -> {
-                    question.validatedString() to status.color
+                    "${question.validatedString()}${question.question}" to status.color
                 }
                 else -> {
                     val allNewString : String = if (status == Status.CRITICAL) {
@@ -50,42 +50,42 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         NAME("Как меня зовут?", listOf("Бендер", "Bender")) {
             override fun validate(answer: String): Boolean = if (answer.isNotEmpty()) answer[0].isUpperCase() else false
 
-            override fun validatedString(): String = "Имя должно начинаться с заглавной буквы"
+            override fun validatedString(): String = "Имя должно начинаться с заглавной буквы\n"
 
             override fun nextQuestion(): Question = PROFESSION
         },
         PROFESSION("Назови мою профессию?", listOf("сгибальщик", "bender")) {
             override fun validate(answer: String): Boolean = if (answer.isNotEmpty()) answer[0].isLowerCase() else false
 
-            override fun validatedString(): String = "Профессия должна начинаться со строчной буквы"
+            override fun validatedString(): String = "Профессия должна начинаться со строчной буквы\n"
 
             override fun nextQuestion(): Question = MATERIAL
         },
         MATERIAL("Из чего я сделан?", listOf("металл", "дерево", "metal", "iron", "wood")) {
             override fun validate(answer: String): Boolean = !"\\d".toRegex().containsMatchIn(answer)
 
-            override fun validatedString(): String = "Материал не должен содержать цифр"
+            override fun validatedString(): String = "Материал не должен содержать цифр\n"
 
             override fun nextQuestion(): Question = BDAY
         },
         BDAY("Когда меня создали?", listOf("2993")) {
             override fun validate(answer: String): Boolean = "\\d+".toRegex().matches(answer)
 
-            override fun validatedString(): String = "Год моего рождения должен содержать только цифры"
+            override fun validatedString(): String = "Год моего рождения должен содержать только цифры\n"
 
             override fun nextQuestion(): Question = SERIAL
         },
         SERIAL("Мой серийный номер?", listOf("2716057")) {
             override fun validate(answer: String): Boolean = "\\d{7}".toRegex().matches(answer)
 
-            override fun validatedString(): String = "Серийный номер содержит только цифры, и их 7"
+            override fun validatedString(): String = "Серийный номер содержит только цифры, и их 7\n"
 
             override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом все, вопросов больше нет", listOf()) {
             override fun validate(answer: String): Boolean = false
 
-            override fun validatedString(): String = IDLE.question
+            override fun validatedString(): String = ""
 
             override fun nextQuestion(): Question = IDLE
         };
