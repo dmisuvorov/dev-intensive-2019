@@ -56,12 +56,12 @@ object Utils {
         payload
             .split("")
             .filter { it != "" }
-            .map {
+            .map { s ->
                 when {
-                    it == " " -> divider
-                    it.toCharArray()[0].isUpperCase() && mapTranslit.containsKey(it.toLowerCase()) -> mapTranslit[it.toLowerCase()]?.toUpperCase()
-                    mapTranslit.containsKey(it) -> mapTranslit[it]
-                    else -> it
+                    s == " " -> divider
+                    s.toCharArray()[0].isUpperCase() && mapTranslit.containsKey(s.toLowerCase()) -> mapTranslit[s.toLowerCase()]?.capitalize()
+                    mapTranslit.containsKey(s) -> mapTranslit[s]
+                    else -> s
                 }
 
             }
