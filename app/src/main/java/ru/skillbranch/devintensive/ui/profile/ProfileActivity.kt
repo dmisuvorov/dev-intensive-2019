@@ -4,6 +4,8 @@ import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -11,9 +13,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -25,6 +29,28 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: ProfileViewModel
     private var isEditMode = false
     private lateinit var viewFields: Map<String, TextView>
+    private lateinit var wrRepository: TextInputLayout
+    private var isValidRepository = true
+
+    private val textWatcherRepo = object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            //nothing to do
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            //nothing to do
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            isValidRepository = if (!Utils.validateRepository(s.toString())) {
+                setErrorMessageInTextInputLayout(wrRepository, "Невалидный адрес репозитория")
+                false
+            } else {
+                clearErrorMessageInTextInputLayout(wrRepository)
+                true
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
@@ -41,6 +67,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun initViews(savedInstanceState: Bundle?) {
+        wrRepository = wr_repository
         viewFields = mapOf(
                 "nickName" to tv_nick_name,
                 "rank" to tv_rank,
@@ -55,6 +82,10 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
+            if (!isValidRepository) {
+                clearTextInEditField(et_repository)
+                return@setOnClickListener
+            }
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
@@ -62,6 +93,14 @@ class ProfileActivity : AppCompatActivity() {
 
         btn_switch_theme.setOnClickListener{
             viewModel.switchTheme()
+        }
+
+        et_repository.setOnFocusChangeListener{ _, hasFocus ->
+            if (hasFocus) {
+                et_repository.addTextChangedListener(textWatcherRepo)
+            } else {
+                et_repository.removeTextChangedListener(textWatcherRepo)
+            }
         }
     }
 
@@ -128,5 +167,19 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
         }
+    }
+
+    private fun setErrorMessageInTextInputLayout(textInputLayout: TextInputLayout, message: String) {
+        textInputLayout.isErrorEnabled = true
+        textInputLayout.error = message
+    }
+
+    private fun clearErrorMessageInTextInputLayout(textInputLayout: TextInputLayout) {
+        textInputLayout.isErrorEnabled = false
+        textInputLayout.error = null
+    }
+
+    private fun clearTextInEditField(field: EditText) {
+        field.text.clear()
     }
 }
