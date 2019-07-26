@@ -6,10 +6,13 @@ import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.ShapeDrawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.utils.Utils
 
 class CircleImageView @JvmOverloads constructor (
     context: Context,
@@ -23,6 +26,14 @@ class CircleImageView @JvmOverloads constructor (
         private const val COLOR_DRAWABLE_DIMENSION = 2
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
     }
+
+    var text: String = ""
+        set(value){
+            field = computeText(value)
+        }
+
+    private val textPaint = Paint()
+    private lateinit var textDrawable: Drawable
 
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
@@ -41,6 +52,7 @@ class CircleImageView @JvmOverloads constructor (
 
     private var borderRadius: Float = 0f
     private var drawableRadius: Float = 0f
+
 
     init {
         if (attrs != null) {
@@ -145,6 +157,7 @@ class CircleImageView @JvmOverloads constructor (
     }
 
     private fun initializeBitmap() {
+        //TODO: if text not null getBitmapFromDrawable(Drawabletext)
         bitmap = getBitmapFromDrawable(drawable)
         setup()
     }
@@ -187,4 +200,43 @@ class CircleImageView @JvmOverloads constructor (
 
         bitmapShader.setLocalMatrix(shaderMatrix)
     }
+
+    private fun drawText(canvas: Canvas?) {
+
+    }
+
+    private fun initTextDrawable() {
+        textDrawable = object : ShapeDrawable() {
+            override fun draw(canvas: Canvas) {
+                super.draw(canvas)
+                val a = TypedValue()
+                val typedArray = context.obtainStyledAttributes(a.data, intArrayOf(R.attr.colorAccent))
+                textPaint.color = typedArray.getColor(0, 0)
+                typedArray.recycle()
+                textPaint.isAntiAlias = true
+                textPaint.style = Paint.Style.FILL
+                textPaint.typeface = Typeface.DEFAULT
+                textPaint.textAlign = Paint.Align.CENTER
+
+                val rect = textDrawable.bounds
+
+                val count = canvas.save()
+                canvas.translate(rect.left.toFloat(), rect.top.toFloat())
+
+                val width = rect.width()
+                val height = rect.height()
+                val fontSize = Math.min(width, height) / 2
+                textPaint.textSize = fontSize.toFloat()
+                canvas.drawText(text, (width / 2).toFloat(), height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2), textPaint)
+                canvas.restoreToCount(count)
+            }
+        }
+    }
+
+    private fun computeText(string: String): String =
+        if (string.isEmpty()) string
+            else {
+                val initials = string.trim().split("\\s+")
+                Utils.toInitials(initials[0], if (initials.size > 1) initials[1] else null)!!
+            }
 }
