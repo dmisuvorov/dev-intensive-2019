@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
+import ru.skillbranch.devintensive.ui.custom.CircleImageView
 import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
@@ -30,6 +31,7 @@ class ProfileActivity : AppCompatActivity() {
     private var isEditMode = false
     private lateinit var viewFields: Map<String, TextView>
     private lateinit var wrRepository: TextInputLayout
+    private lateinit var ivAvatar: CircleImageView
     private var isValidRepository = true
 
     private val textWatcherRepo = object : TextWatcher {
@@ -68,6 +70,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initViews(savedInstanceState: Bundle?) {
         wrRepository = wr_repository
+        ivAvatar = iv_avatar
         viewFields = mapOf(
                 "nickName" to tv_nick_name,
                 "rank" to tv_rank,
@@ -122,6 +125,8 @@ class ProfileActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
+
+        ivAvatar.text = "${profile.firstName} ${profile.lastName}"
     }
 
     private fun showCurrentMode(isEdit: Boolean) {
