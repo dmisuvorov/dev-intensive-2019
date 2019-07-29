@@ -44,7 +44,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            isValidRepository = if (!Utils.validateRepository(s.toString())) {
+            isValidRepository = if (!s.isNullOrEmpty() && !Utils.validateRepository(s.toString())) {
                 setErrorMessageInTextInputLayout(wrRepository, "Невалидный адрес репозитория")
                 false
             } else {
@@ -98,13 +98,7 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnFocusChangeListener{ _, hasFocus ->
-            if (hasFocus) {
-                et_repository.addTextChangedListener(textWatcherRepo)
-            } else {
-                et_repository.removeTextChangedListener(textWatcherRepo)
-            }
-        }
+        et_repository.addTextChangedListener(textWatcherRepo)
     }
 
     private fun initViewModel() {
