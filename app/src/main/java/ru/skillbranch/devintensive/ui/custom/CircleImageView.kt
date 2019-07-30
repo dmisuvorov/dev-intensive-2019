@@ -10,7 +10,6 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorRes
-import androidx.annotation.Dimension
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.utils.Utils
 
@@ -39,6 +38,7 @@ class CircleImageView @JvmOverloads constructor (
 
     private val textPaint = Paint()
     private lateinit var textDrawable: Drawable
+    private val rectF = RectF()
 
     private var borderColor = DEFAULT_BORDER_COLOR
     private var borderWidth = DEFAULT_BORDER_WIDTH
@@ -67,6 +67,13 @@ class CircleImageView @JvmOverloads constructor (
             a.recycle()
             setup()
         }
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        val screenWidth = MeasureSpec.getSize(widthMeasureSpec)
+        val screenHeight = MeasureSpec.getSize(heightMeasureSpec)
+        rectF.set(0f, 0f, screenWidth.toFloat(), screenHeight.toFloat())
     }
 
     override fun onDraw(canvas: Canvas?) {
@@ -98,9 +105,9 @@ class CircleImageView @JvmOverloads constructor (
         initializeBitmap(drawable)
     }
 
-    @Dimension fun getBorderWidth(): Int = borderWidth
+    fun getBorderWidth(): Int = borderWidth
 
-    fun setBorderWidth(@Dimension dp: Int) {
+    fun setBorderWidth(dp: Int) {
         if (borderWidth == dp) return else borderWidth = dp
         setup()
     }
@@ -116,7 +123,7 @@ class CircleImageView @JvmOverloads constructor (
     fun setBorderColor(@ColorRes colorId: Int) {
         if (borderColor == colorId) return else borderColor = colorId
         borderPaint.color = borderColor
-        setup()
+        invalidate()
     }
 
     private fun setup() {
@@ -128,17 +135,13 @@ class CircleImageView @JvmOverloads constructor (
 
         bitmapShader = BitmapShader(bitmap!!, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
-        with(bitmapPaint) {
-            isAntiAlias = true
-            shader = bitmapShader
-        }
+        bitmapPaint.isAntiAlias = true
+        bitmapPaint.shader = bitmapShader
 
-        with(borderPaint) {
-            style = Paint.Style.STROKE
-            isAntiAlias = true
-            color = borderColor
-            strokeWidth = borderWidth.toFloat()
-        }
+        borderPaint.style = Paint.Style.STROKE
+        borderPaint.isAntiAlias = true
+        borderPaint.color = borderColor
+        borderPaint.strokeWidth = borderWidth.toFloat()
 
         bitmapHeight = bitmap!!.height
         bitmapWidth = bitmap!!.width
@@ -204,10 +207,8 @@ class CircleImageView @JvmOverloads constructor (
             dy = (drawableRect.height() - bitmapHeight * scale) * 0.5f
         }
 
-        with(shaderMatrix) {
-            setScale(scale, scale)
-            postTranslate((dx + 0.5f).toInt() + drawableRect.left, (dy + 0.5f).toInt() + drawableRect.top)
-        }
+        shaderMatrix.setScale(scale, scale)
+        shaderMatrix.postTranslate((dx + 0.5f).toInt() + drawableRect.left, (dy + 0.5f).toInt() + drawableRect.top)
 
         bitmapShader.setLocalMatrix(shaderMatrix)
     }
@@ -229,15 +230,12 @@ class CircleImageView @JvmOverloads constructor (
                 val a = TypedValue()
                 val typedArray = context.obtainStyledAttributes(a.data, intArrayOf(R.attr.colorAccent))
                 val background = typedArray.getColor(0, 0)
+                textPaint.color = Color.WHITE
                 typedArray.recycle()
-                with(textPaint) {
-                    color = Color.WHITE
-                    isAntiAlias = true
-                    style = Paint.Style.FILL
-                    typeface = Typeface.DEFAULT
-                    textAlign = Paint.Align.CENTER
-                }
-
+                textPaint.isAntiAlias = true
+                textPaint.style = Paint.Style.FILL
+                textPaint.typeface = Typeface.DEFAULT
+                textPaint.textAlign = Paint.Align.CENTER
 
                 val rect = textDrawable.bounds
 
@@ -248,11 +246,9 @@ class CircleImageView @JvmOverloads constructor (
                 val height = rect.height()
                 val fontSize = Math.min(width, height) / 2
                 textPaint.textSize = fontSize.toFloat()
-                with(canvas) {
-                    drawColor(background)
-                    drawText(text!!, (width / 2).toFloat(), height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2), textPaint)
-                    restoreToCount(count)
-                }
+                canvas.drawColor(background)
+                canvas.drawText(text!!, (width / 2).toFloat(), height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2), textPaint)
+                canvas.restoreToCount(count)
             }
         }
     }
