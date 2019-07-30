@@ -71,6 +71,11 @@ class ProfileActivity : AppCompatActivity() {
         outState?.putBoolean(IS_EDIT_MODE, isEditMode)
     }
 
+    override fun onResume() {
+        super.onResume()
+        et_repository.addTextChangedListener(textWatcherRepo)
+    }
+
     override fun onPause() {
         et_repository.removeTextChangedListener(textWatcherRepo)
         super.onPause()

@@ -107,7 +107,8 @@ class CircleImageView @JvmOverloads constructor (
         invalidate()
     }
 
-    fun getBorderColor(): Int = borderColor
+    @SuppressLint("ResourceType")
+    fun getBorderColor(): Int = context.resources.getColor(borderColor, context.theme)
 
 
     @SuppressLint("ResourceType")
@@ -116,7 +117,8 @@ class CircleImageView @JvmOverloads constructor (
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
-        if (borderColor == colorId) return else borderColor = colorId
+        val color = context.resources.getColor(colorId, context.theme)
+        if (borderColor == color) return else borderColor = color
         borderPaint.color = borderColor
         invalidate()
     }
