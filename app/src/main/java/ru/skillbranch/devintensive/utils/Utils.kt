@@ -4,7 +4,7 @@ package ru.skillbranch.devintensive.utils
 object Utils {
     private val fullNameRegex = "^[a-zа-я'-]+ [a-zа-я,.'-]+.*".toRegex()
     private val nameRegex = "^[a-zа-я'-]+".toRegex()
-    private val repRegex = "^(https://|www.|https://www.)?github.com/(?!((enterprise\\b)|(features\\b)|(topics\\b)|(collections\\b)|(trending\\b)|(events\\b)|(marketplace\\b)|(pricing\\b)|(nonprofit\\b)|(customer-stories\\b)|(security\\b)|(login\\b)|(join\\b)))[a-zA-Z]+(?!/)".toRegex()
+    private val repRegex = "^(https://|www.|https://www.)?github.com/(?!((enterprise\\b)|(features\\b)|(topics\\b)|(collections\\b)|(trending\\b)|(events\\b)|(marketplace\\b)|(pricing\\b)|(nonprofit\\b)|(customer-stories\\b)|(security\\b)|(login\\b)|(join\\b)))[a-zA-Z_]+(?!/)".toRegex()
 
 
     private val mapTranslit: HashMap<String, String> = hashMapOf(

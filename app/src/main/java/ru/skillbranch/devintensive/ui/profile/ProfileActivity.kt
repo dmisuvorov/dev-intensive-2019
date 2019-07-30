@@ -75,7 +75,7 @@ class ProfileActivity : AppCompatActivity() {
         et_repository.removeTextChangedListener(textWatcherRepo)
         super.onPause()
     }
-    
+
     private fun initViews(savedInstanceState: Bundle?) {
         wrRepository = wr_repository
         ivAvatar = iv_avatar

@@ -102,8 +102,8 @@ class CircleImageView @JvmOverloads constructor (
     @Dimension fun getBorderWidth(): Int = borderWidth
 
     fun setBorderWidth(@Dimension dp: Int) {
-        val px = convertDpToPx(dp)
-        if (borderWidth == px) return else borderWidth = px
+        val width = convertDpToPx(dp)
+        if (borderWidth == width) return else borderWidth = width
         invalidate()
     }
 
@@ -269,5 +269,5 @@ class CircleImageView @JvmOverloads constructor (
             )
         }
 
-    private fun convertDpToPx(dp: Int) : Int = Math.round(dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+    private fun convertDpToPx(dp: Int)  = Math.round(dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 }
