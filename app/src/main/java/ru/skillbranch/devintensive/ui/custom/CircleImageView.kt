@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.ImageView
+import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.Dimension
 import ru.skillbranch.devintensive.R
@@ -113,11 +114,16 @@ class CircleImageView @JvmOverloads constructor (
 
     @SuppressLint("ResourceType")
     fun setBorderColor(hex: String) {
-        setBorderColor(Color.parseColor(hex))
+        val color = Color.parseColor(hex)
+        setColor(color)
     }
 
     fun setBorderColor(@ColorRes colorId: Int) {
         val color = context.resources.getColor(colorId, context.theme)
+        setColor(color)
+    }
+
+    private fun setColor(@ColorInt color: Int) {
         if (borderColor == color) return else borderColor = color
         borderPaint.color = borderColor
         invalidate()
