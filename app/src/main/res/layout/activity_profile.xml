@@ -39,8 +39,7 @@
                         android:layout_height="@dimen/avatar_round_size"
                         android:src="@drawable/avatar_default"
                         android:layout_centerHorizontal="true"
-                        app:cv_borderColor="@color/color_gray_light"
-                        app:cv_borderWidth="6dp"
+
                 />
                 <ImageButton
                         android:id="@+id/btn_edit"

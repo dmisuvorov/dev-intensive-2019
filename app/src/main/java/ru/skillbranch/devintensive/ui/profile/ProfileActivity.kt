@@ -1,5 +1,7 @@
 package ru.skillbranch.devintensive.ui.profile
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -11,6 +13,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
@@ -44,7 +47,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            isValidRepository = if (!Utils.validateRepository(s.toString())) {
+            isValidRepository = if (!s.isNullOrEmpty() && !Utils.validateRepository(s.toString())) {
                 setErrorMessageInTextInputLayout(wrRepository, "Невалидный адрес репозитория")
                 false
             } else {
@@ -68,6 +71,11 @@ class ProfileActivity : AppCompatActivity() {
         outState?.putBoolean(IS_EDIT_MODE, isEditMode)
     }
 
+    override fun onPause() {
+        et_repository.removeTextChangedListener(textWatcherRepo)
+        super.onPause()
+    }
+    
     private fun initViews(savedInstanceState: Bundle?) {
         wrRepository = wr_repository
         ivAvatar = iv_avatar
@@ -87,7 +95,6 @@ class ProfileActivity : AppCompatActivity() {
         btn_edit.setOnClickListener {
             if (!isValidRepository) {
                 clearTextInEditField(et_repository)
-                return@setOnClickListener
             }
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
@@ -98,13 +105,7 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.switchTheme()
         }
 
-        et_repository.setOnFocusChangeListener{ _, hasFocus ->
-            if (hasFocus) {
-                et_repository.addTextChangedListener(textWatcherRepo)
-            } else {
-                et_repository.removeTextChangedListener(textWatcherRepo)
-            }
-        }
+        et_repository.addTextChangedListener(textWatcherRepo)
     }
 
     private fun initViewModel() {
