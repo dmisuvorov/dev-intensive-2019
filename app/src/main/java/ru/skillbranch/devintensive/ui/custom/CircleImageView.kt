@@ -99,7 +99,7 @@ class CircleImageView @JvmOverloads constructor (
         initializeBitmap(drawable)
     }
 
-    @Dimension fun getBorderWidth(): Int = borderWidth
+    @Dimension fun getBorderWidth(): Int = convertPxToDp(borderWidth)
 
     fun setBorderWidth(@Dimension dp: Int) {
         val width = convertDpToPx(dp)
@@ -270,4 +270,6 @@ class CircleImageView @JvmOverloads constructor (
         }
 
     private fun convertDpToPx(dp: Int)  = Math.round(dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+
+    private fun convertPxToDp(px: Int) = Math.round(px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 }
