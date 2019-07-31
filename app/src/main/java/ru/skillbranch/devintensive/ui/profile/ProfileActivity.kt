@@ -1,7 +1,5 @@
 package ru.skillbranch.devintensive.ui.profile
 
-import android.annotation.SuppressLint
-import android.graphics.Color
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
@@ -13,7 +11,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
@@ -21,7 +18,6 @@ import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
-import ru.skillbranch.devintensive.utils.Utils
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
@@ -47,13 +43,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            isValidRepository = if (!s.isNullOrEmpty() && !Utils.validateRepository(s.toString())) {
-                setErrorMessageInTextInputLayout(wrRepository, "Невалидный адрес репозитория")
-                false
-            } else {
-                clearErrorMessageInTextInputLayout(wrRepository)
-                true
-            }
+            viewModel.repositoryChange(s.toString())
         }
     }
 
@@ -117,6 +107,13 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+        viewModel.getRepoValid().observe(this, Observer { updateRepoStatus(it) })
+    }
+
+    private fun updateRepoStatus(isValidRepo: Boolean) {
+        isValidRepository = isValidRepo
+        wrRepository.isErrorEnabled = !isValidRepo
+        wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else ""
     }
 
     private fun updateTheme(mode: Int) {
@@ -178,16 +175,6 @@ class ProfileActivity : AppCompatActivity() {
         ).apply {
             viewModel.saveProfileData(this)
         }
-    }
-
-    private fun setErrorMessageInTextInputLayout(textInputLayout: TextInputLayout, message: String) {
-        textInputLayout.isErrorEnabled = true
-        textInputLayout.error = message
-    }
-
-    private fun clearErrorMessageInTextInputLayout(textInputLayout: TextInputLayout) {
-        textInputLayout.isErrorEnabled = false
-        textInputLayout.error = null
     }
 
     private fun clearTextInEditField(field: EditText) {
