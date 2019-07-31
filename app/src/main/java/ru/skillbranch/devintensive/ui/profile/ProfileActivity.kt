@@ -96,7 +96,7 @@ class ProfileActivity : AppCompatActivity() {
             showCurrentMode(isEditMode)
         }
 
-        btn_switch_theme.setOnClickListener{
+        btn_switch_theme.setOnClickListener {
             viewModel.switchTheme()
         }
 
@@ -122,7 +122,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateUI(profile: Profile) {
-        Log.d("M_ProfileActivity","updateUI")
+        Log.d("M_ProfileActivity", "updateUI")
         profile.toMap().also {
             for ((k, v) in viewFields) {
                 v.text = it[k].toString()
@@ -145,7 +145,7 @@ class ProfileActivity : AppCompatActivity() {
         ic_eye.visibility = if (isEdit) View.GONE else View.VISIBLE
         wr_about.isCounterEnabled = isEdit
 
-        with (btn_edit) {
+        with(btn_edit) {
             val filter: ColorFilter? = if (isEdit) {
                 PorterDuffColorFilter(
                         resources.getColor(R.color.color_accent, theme),
@@ -167,7 +167,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun saveProfileInfo() {
-        Profile (
+        Profile(
                 firstName = et_first_name.text.toString(),
                 lastName = et_last_name.text.toString(),
                 about = et_about.text.toString(),
