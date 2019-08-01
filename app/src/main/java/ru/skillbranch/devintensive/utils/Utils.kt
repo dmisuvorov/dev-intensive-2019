@@ -78,7 +78,7 @@ object Utils {
         }
     }
 
-    fun validateRepository(repoString: String) : Boolean = repoString.matches(Regex("^(http(s)?:\\/\\/)?(www.)?github.com/[A-z\\d](?:[A-z\\d]|-(?=[A-z\\d])){0,38}\$",RegexOption.IGNORE_CASE)) &&
+    fun validateRepository(repoString: String) : Boolean = repoString.matches(Regex("^(https://)?(www.)?github.com/[A-z\\d](?:[A-z\\d]|-(?=[A-z\\d])){0,38}\$",RegexOption.IGNORE_CASE)) &&
     !repoString.matches(Regex("^.*(" +
                         "\\/enterprise|" +
                         "\\/features|" +
