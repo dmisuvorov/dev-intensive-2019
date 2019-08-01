@@ -2,7 +2,7 @@ package ru.skillbranch.devintensive.utils
 
 
 object Utils {
-    private val fullNameRegex = "^[a-zа-я'-]+ [a-zа-я,.'-]+.*".toRegex()
+    private val fullNameRegex = "^[a-zа-я\\d'-]+ [a-zа-я\\d,.'-]+.*".toRegex()
     private val nameRegex = "^[a-zа-я'-]+".toRegex()
     private val repRegex = "^(https://|www[.]|https://www[.])?github.com/(?!(${getRegexExceptions()}))[A-Za-z\\d](?:[A-Za-z\\d]|-(?=[A-Za-z\\d])){0,38}(/)?\$".toRegex()
 
