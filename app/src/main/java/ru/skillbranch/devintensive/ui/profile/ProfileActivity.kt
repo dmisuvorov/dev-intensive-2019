@@ -116,7 +116,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateRepoStatus(isValidRepo: Boolean) {
         isValidRepository = isValidRepo
         wrRepository.isErrorEnabled = !isValidRepo
-        wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
+        wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else ""
     }
 
     private fun updateTheme(mode: Int) {
