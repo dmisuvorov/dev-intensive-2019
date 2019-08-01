@@ -83,9 +83,9 @@ object Utils {
     private fun getRegexExceptions(): String {
         val exceptions = arrayOf(
             "enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing",
-            "nonprofit", "customer-stories", "security", "login", "join$"
+            "nonprofit", "customer-stories", "security", "login", "join[/]?$"
         )
-        return exceptions.joinToString("$|","")
+        return exceptions.joinToString("[/]?$|","")
     }
 
     private fun namePattern(fullName: String?) : MatchName =
