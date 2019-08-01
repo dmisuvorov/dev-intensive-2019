@@ -4,7 +4,6 @@ package ru.skillbranch.devintensive.utils
 object Utils {
     private val fullNameRegex = "^[a-zа-я'-]+ [a-zа-я,.'-]+.*".toRegex()
     private val nameRegex = "^[a-zа-я'-]+".toRegex()
-    private val repRegex = "^(http(s)?://|www.|http(s)?://www.)?github.com/(?!((enterprise\\b)|(features\\b)|(topics\\b)|(collections\\b)|(trending\\b)|(events\\b)|(marketplace\\b)|(pricing\\b)|(nonprofit\\b)|(customer-stories\\b)|(security\\b)|(login\\b)|(join\\b)))[A-z\\d](?:[A-z\\d]|-(?=[A-z\\d])){0,38}\$".toRegex(RegexOption.IGNORE_CASE)
 
 
     private val mapTranslit: HashMap<String, String> = hashMapOf(
@@ -79,7 +78,21 @@ object Utils {
         }
     }
 
-    fun validateRepository(repoString: String) : Boolean = repoString.matches(repRegex)
+    fun validateRepository(repoString: String) : Boolean = repoString.matches(Regex("^(http(s)?:\\/\\/)?(www.)?github.com/[A-z\\d](?:[A-z\\d]|-(?=[A-z\\d])){0,38}\$",RegexOption.IGNORE_CASE)) &&
+    !repoString.matches(Regex("^.*(" +
+                        "\\/enterprise|" +
+                        "\\/features|" +
+                        "\\/topics|" +
+                        "\\/collections|" +
+                        "\\/trending|" +
+                        "\\/events|" +
+                        "\\/marketplace" +
+                        "|\\/pricing|" +
+                        "\\/nonprofit|" +
+                        "\\/customer-stories|" +
+                        "\\/security|" +
+                        "\\/login|" +
+                        "\\/join)\$",RegexOption.IGNORE_CASE))
 
     private fun namePattern(fullName: String?) : MatchName =
                                                             when {
