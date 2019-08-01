@@ -80,12 +80,13 @@ object Utils {
 
     fun validateRepository(repoString: String) : Boolean = repoString.matches(repRegex)
 
-    private fun getRegexExceptions(): String {
+    fun getRegexExceptions(): String {
         val exceptions = arrayOf(
             "enterprise", "features", "topics", "collections", "trending", "events", "marketplace", "pricing",
-            "nonprofit", "customer-stories", "security", "login", "join[/]?$"
+            "nonprofit", "customer-stories", "security", "login", "join"
         )
-        return exceptions.joinToString("[/]?$|","")
+        return exceptions
+            .joinToString("[/]?$|","", "[/]?$")
     }
 
     private fun namePattern(fullName: String?) : MatchName =
