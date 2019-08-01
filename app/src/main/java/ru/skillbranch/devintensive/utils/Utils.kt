@@ -6,7 +6,7 @@ object Utils {
     private val nameRegex = "^[a-zа-я'-]+".toRegex()
     private val repRegex = ("^(http(s)?://|www.|http(s)?://www.)?github.com/" +
             "(?!((enterprise\\b)|(features\\b)|(topics\\b)|(collections\\b)|(trending\\b)|(events\\b)|(marketplace\\b)|(pricing\\b)|(nonprofit\\b)|(customer-stories\\b)|(security\\b)|(login\\b)|(join\\b)))" +
-            "[A-Za-z\\d](?:[A-Za-z\\d]|-(?=[A-Za-z\\d])){0,38}\$").toRegex()
+            "[a-z\\d](?:[a-z\\d]|-(?=[a-z\\d])){0,38}\$").toRegex(RegexOption.IGNORE_CASE)
 
     private val mapTranslit: HashMap<String, String> = hashMapOf(
         "а" to "a",
