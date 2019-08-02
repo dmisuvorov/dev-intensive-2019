@@ -39,7 +39,7 @@ class ProfileViewModel : ViewModel() {
         profileData.value = profile
     }
 
-    fun getRepositoryErorWhenSaveData(): LiveData<Boolean> = repositoryErorWhenSaveData
+    fun getRepositoryErrorWhenSaveData(): LiveData<Boolean> = repositoryErorWhenSaveData
 
     fun onRepoEditCompleted(isError: Boolean) {
         repositoryErorWhenSaveData.value = isError

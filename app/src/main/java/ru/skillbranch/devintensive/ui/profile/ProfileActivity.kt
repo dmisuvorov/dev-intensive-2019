@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
@@ -29,7 +28,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewModel: ProfileViewModel
     private var isEditMode = false
     private lateinit var viewFields: Map<String, TextView>
-    private lateinit var wrRepository: TextInputLayout
     private lateinit var ivAvatar: CircleImageView
 
     private val textWatcherRepo = object : TextWatcher {
@@ -63,7 +61,6 @@ class ProfileActivity : AppCompatActivity() {
 
 
     private fun initViews(savedInstanceState: Bundle?) {
-        wrRepository = wr_repository
         ivAvatar = iv_avatar
         viewFields = mapOf(
                 "nickName" to tv_nick_name,
@@ -99,7 +96,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
-        viewModel.getRepositoryErorWhenSaveData().observe(this, Observer { updateRepoStatusWhenSaveData(it) })
+        viewModel.getRepositoryErrorWhenSaveData().observe(this, Observer { updateRepoStatusWhenSaveData(it) })
         viewModel.getRepoValid().observe(this, Observer { updateRepoStatus(it) })
     }
 
@@ -108,8 +105,8 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateRepoStatus(isValidRepo: Boolean) {
-        wrRepository.isErrorEnabled = !isValidRepo
-        wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
+        wr_repository.isErrorEnabled = !isValidRepo
+        wr_repository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
 
     }
 
@@ -180,6 +177,6 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun clearTextInEditField(field: EditText) {
         field.text.clear()
-        Log.d("M_ProfileActivity", "${wrRepository.height} ${wrRepository.width}")
+        Log.d("M_ProfileActivity", "${wr_repository.height} ${wr_repository.width}")
     }
 }
