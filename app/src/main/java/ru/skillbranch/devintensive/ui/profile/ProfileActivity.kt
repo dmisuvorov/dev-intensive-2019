@@ -24,7 +24,7 @@ import ru.skillbranch.devintensive.ui.custom.CircleImageView
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
-class ProfileActivity : AppCompatActivity(), TextView.OnEditorActionListener {
+class ProfileActivity : AppCompatActivity() {
     companion object {
         const val IS_EDIT_MODE = "IS_EDIT_MODE"
     }
@@ -75,18 +75,6 @@ class ProfileActivity : AppCompatActivity(), TextView.OnEditorActionListener {
         super.onPause()
     }
 
-    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean =
-        if (v?.id == R.id.et_repository) {
-            when (actionId) {
-                EditorInfo.IME_ACTION_DONE -> {
-                    hideKeyboard()
-                    true
-                }
-                else -> false
-            }
-        } else {
-            false
-        }
 
     private fun initViews(savedInstanceState: Bundle?) {
         wrRepository = wr_repository
