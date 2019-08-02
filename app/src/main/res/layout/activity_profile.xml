@@ -251,11 +251,11 @@
                     style="@style/Profile.EditText.Single"
                     android:id="@+id/et_repository"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:hint="@string/profile_hint_repository"
                     android:inputType="textUri"
                     android:imeOptions="actionDone"
-                    
+
             />
 
         </com.google.android.material.textfield.TextInputLayout>
