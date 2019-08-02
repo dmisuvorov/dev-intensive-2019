@@ -244,7 +244,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:layout_marginLeft="@dimen/spacing_normal_16">
+                android:layout_marginLeft="@dimen/spacing_normal_16"
+                android:padding="@dimen/spacing_tiny_4"
+                >
             <EditText
                     style="@style/Profile.EditText.Single"
                     android:id="@+id/et_repository"
