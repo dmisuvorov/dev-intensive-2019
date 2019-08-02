@@ -7,9 +7,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
-import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
@@ -65,15 +62,6 @@ class ProfileActivity : AppCompatActivity() {
         Log.d("M_ProfileActivity","onSaveInstanceState")
     }
 
-    override fun onResume() {
-        super.onResume()
-        et_repository.addTextChangedListener(textWatcherRepo)
-    }
-
-    override fun onPause() {
-        et_repository.removeTextChangedListener(textWatcherRepo)
-        super.onPause()
-    }
 
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -101,6 +89,7 @@ class ProfileActivity : AppCompatActivity() {
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
+
         }
 
         btn_switch_theme.setOnClickListener {
@@ -121,6 +110,7 @@ class ProfileActivity : AppCompatActivity() {
         isValidRepository = isValidRepo
         wrRepository.isErrorEnabled = !isValidRepo
         wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
+
     }
 
     private fun updateTheme(mode: Int) {
@@ -190,5 +180,6 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun clearTextInEditField(field: EditText) {
         field.text.clear()
+        Log.d("M_ProfileActivity", "${wrRepository.height} ${wrRepository.width}")
     }
 }
