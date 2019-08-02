@@ -109,7 +109,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
-        viewModel.getRepositoryError().observe(this, Observer { updateRepoError(it) })
+        viewModel.getRepositoryErorWhenSaveData().observe(this, Observer { updateRepoError(it) })
         viewModel.getRepoValid().observe(this, Observer { updateRepoStatus(it) })
     }
 
