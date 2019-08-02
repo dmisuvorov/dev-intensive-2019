@@ -55,7 +55,7 @@ class ProfileViewModel : ViewModel() {
         repository.saveAppTheme(appTheme.value!!)
     }
 
-    fun repositoryChange(repository: String?) {
-        isValidRepository.value = repository.isNullOrEmpty() || Utils.validateRepository(repository)
+    fun repositoryChange(repository: String) {
+        isValidRepository.value = repository.isEmpty() || Utils.validateRepository(repository)
     }
 }
