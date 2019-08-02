@@ -7,7 +7,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +18,13 @@ import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.textfield.TextInputLayout
 import kotlinx.android.synthetic.main.activity_profile.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
 import ru.skillbranch.devintensive.viewmodels.ProfileViewModel
 
 
-class ProfileActivity : AppCompatActivity() {
+class ProfileActivity : AppCompatActivity(), TextView.OnEditorActionListener {
     companion object {
         const val IS_EDIT_MODE = "IS_EDIT_MODE"
     }
@@ -71,6 +74,19 @@ class ProfileActivity : AppCompatActivity() {
         et_repository.removeTextChangedListener(textWatcherRepo)
         super.onPause()
     }
+
+    override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean =
+        if (v?.id == R.id.et_repository) {
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    hideKeyboard()
+                    true
+                }
+                else -> false
+            }
+        } else {
+            false
+        }
 
     private fun initViews(savedInstanceState: Bundle?) {
         wrRepository = wr_repository
@@ -167,6 +183,8 @@ class ProfileActivity : AppCompatActivity() {
             background.colorFilter = filter
             setImageDrawable(icon)
         }
+
+
     }
 
     private fun saveProfileInfo() {
@@ -179,6 +197,8 @@ class ProfileActivity : AppCompatActivity() {
             viewModel.saveProfileData(this)
         }
     }
+
+
 
     private fun clearTextInEditField(field: EditText) {
         field.text.clear()
