@@ -31,7 +31,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var viewFields: Map<String, TextView>
     private lateinit var wrRepository: TextInputLayout
     private lateinit var ivAvatar: CircleImageView
-    private var isValidRepository = true
 
     private val textWatcherRepo = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
@@ -62,6 +61,15 @@ class ProfileActivity : AppCompatActivity() {
         Log.d("M_ProfileActivity","onSaveInstanceState")
     }
 
+    override fun onResume() {
+        super.onResume()
+        et_repository.addTextChangedListener(textWatcherRepo)
+    }
+
+    override fun onPause() {
+        et_repository.removeTextChangedListener(textWatcherRepo)
+        super.onPause()
+    }
 
 
     private fun initViews(savedInstanceState: Bundle?) {
@@ -83,9 +91,7 @@ class ProfileActivity : AppCompatActivity() {
         showCurrentMode(isEditMode)
 
         btn_edit.setOnClickListener {
-            if (!isValidRepository) {
-                clearTextInEditField(et_repository)
-            }
+            viewModel.onRepoEditCompleted(wr_repository.isErrorEnabled)
             if (isEditMode) saveProfileInfo()
             isEditMode = !isEditMode
             showCurrentMode(isEditMode)
@@ -103,11 +109,15 @@ class ProfileActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ProfileViewModel::class.java)
         viewModel.getProfileData().observe(this, Observer { updateUI(it) })
         viewModel.getTheme().observe(this, Observer { updateTheme(it) })
+        viewModel.getRepositoryError().observe(this, Observer { updateRepoError(it) })
         viewModel.getRepoValid().observe(this, Observer { updateRepoStatus(it) })
     }
 
+    private fun updateRepoError(isError: Boolean) {
+        if (isError) clearTextInEditField(et_repository)
+    }
+
     private fun updateRepoStatus(isValidRepo: Boolean) {
-        isValidRepository = isValidRepo
         wrRepository.isErrorEnabled = !isValidRepo
         wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
 

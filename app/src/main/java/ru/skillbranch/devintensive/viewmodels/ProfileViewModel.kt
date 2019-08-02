@@ -14,6 +14,7 @@ class ProfileViewModel : ViewModel() {
     private val profileData = MutableLiveData<Profile>()
     private val appTheme = MutableLiveData<Int>()
     private val isValidRepository = MutableLiveData<Boolean>()
+    private val repositoryError = MutableLiveData<Boolean>()
 
     init {
         Log.d("M_ProfileViewModel", "init view model")
@@ -37,6 +38,12 @@ class ProfileViewModel : ViewModel() {
         isValidRepository.value = true
         repository.saveProfile(profile)
         profileData.value = profile
+    }
+
+    fun getRepositoryError(): LiveData<Boolean> = repositoryError
+
+    fun onRepoEditCompleted(isError: Boolean) {
+        repositoryError.value = isError
     }
 
     fun switchTheme() {
