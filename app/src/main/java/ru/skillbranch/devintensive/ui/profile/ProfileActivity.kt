@@ -34,7 +34,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private val textWatcherRepo = object : TextWatcher {
         override fun afterTextChanged(s: Editable?) {
-            //nothing to do
+            viewModel.repositoryChange(s.toString())
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -42,7 +42,7 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            viewModel.repositoryChange(s.toString())
+            //nothing to do
         }
     }
 
@@ -59,16 +59,6 @@ class ProfileActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
         outState?.putBoolean(IS_EDIT_MODE, isEditMode)
         Log.d("M_ProfileActivity","onSaveInstanceState")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        et_repository.addTextChangedListener(textWatcherRepo)
-    }
-
-    override fun onPause() {
-        et_repository.removeTextChangedListener(textWatcherRepo)
-        super.onPause()
     }
 
 
