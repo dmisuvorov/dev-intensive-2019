@@ -118,7 +118,6 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun updateRepoStatus(isValidRepo: Boolean) {
-        wrRepository.visibility = View.VISIBLE
         isValidRepository = isValidRepo
         wrRepository.isErrorEnabled = !isValidRepo
         wrRepository.error = if (!isValidRepo) "Невалидный адрес репозитория" else null
