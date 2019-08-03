@@ -135,7 +135,7 @@ class ProfileActivity : AppCompatActivity() {
             v.background.alpha = if (isEdit) 255 else 0
         }
 
-        iv_eye.visibility = if (isEdit) View.GONE else View.VISIBLE
+        ic_eye.visibility = if (isEdit) View.GONE else View.VISIBLE
         wr_about.isCounterEnabled = isEdit
 
         with(btn_edit) {
