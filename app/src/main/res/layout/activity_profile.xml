@@ -258,7 +258,7 @@
 
         </com.google.android.material.textfield.TextInputLayout>
         <ImageView
-                android:id="@+id/ic_eye"
+                android:id="@+id/iv_eye"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="@dimen/spacing_normal_16"
