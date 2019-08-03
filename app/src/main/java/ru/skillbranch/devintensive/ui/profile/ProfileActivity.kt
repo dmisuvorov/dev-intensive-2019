@@ -13,7 +13,20 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import kotlinx.android.synthetic.main.activity_profile.*
+import kotlinx.android.synthetic.main.activity_profile_constraint.*
+import kotlinx.android.synthetic.main.activity_profile_constraint.btn_edit
+import kotlinx.android.synthetic.main.activity_profile_constraint.btn_switch_theme
+import kotlinx.android.synthetic.main.activity_profile_constraint.et_about
+import kotlinx.android.synthetic.main.activity_profile_constraint.et_first_name
+import kotlinx.android.synthetic.main.activity_profile_constraint.et_last_name
+import kotlinx.android.synthetic.main.activity_profile_constraint.et_repository
+import kotlinx.android.synthetic.main.activity_profile_constraint.iv_avatar
+import kotlinx.android.synthetic.main.activity_profile_constraint.tv_nick_name
+import kotlinx.android.synthetic.main.activity_profile_constraint.tv_rank
+import kotlinx.android.synthetic.main.activity_profile_constraint.tv_rating
+import kotlinx.android.synthetic.main.activity_profile_constraint.tv_respect
+import kotlinx.android.synthetic.main.activity_profile_constraint.wr_about
+import kotlinx.android.synthetic.main.activity_profile_constraint.wr_repository
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.Profile
 import ru.skillbranch.devintensive.ui.custom.CircleImageView
@@ -134,7 +147,7 @@ class ProfileActivity : AppCompatActivity() {
             v.background.alpha = if (isEdit) 255 else 0
         }
 
-        ic_eye.visibility = if (isEdit) View.GONE else View.VISIBLE
+        iv_eye.visibility = if (isEdit) View.GONE else View.VISIBLE
         wr_about.isCounterEnabled = isEdit
 
         with(btn_edit) {
