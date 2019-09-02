@@ -1,5 +1,8 @@
 package ru.skillbranch.devintensive.utils
 
+import android.content.Context
+import android.util.DisplayMetrics
+
 
 object Utils {
     private val fullNameRegex = "^[a-zа-я\\d'-]+ [a-zа-я\\d,.'-]+.*".toRegex()
@@ -88,6 +91,12 @@ object Utils {
         return exceptions
             .joinToString("[/]?$|","", "[/]?$")
     }
+
+    fun convertDpToPx(dp: Int, context: Context) =
+        Math.round(dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+
+    fun convertPxToDp(px: Int, context: Context) =
+        Math.round(px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 
     private fun namePattern(fullName: String?) : MatchName =
                                                             when {

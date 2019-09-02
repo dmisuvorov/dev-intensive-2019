@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
-import android.util.DisplayMetrics
 import android.util.TypedValue
 import android.widget.ImageView
 import androidx.annotation.ColorInt
@@ -17,7 +16,7 @@ import androidx.core.content.ContextCompat
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.utils.Utils
 
-class CircleImageView @JvmOverloads constructor (
+class CircleImageView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttrs: Int = 0
@@ -31,8 +30,8 @@ class CircleImageView @JvmOverloads constructor (
     }
 
     var text: String? = ""
-        set(value){
-            field = computeText(value)
+        set(value) {
+            field = value
             if (field != null) {
                 initTextDrawable()
                 setImageDrawable(textDrawable)
@@ -66,7 +65,8 @@ class CircleImageView @JvmOverloads constructor (
         if (attrs != null) {
             val a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView)
             borderColor = a.getColor(R.styleable.CircleImageView_cv_borderColor, DEFAULT_BORDER_COLOR)
-            borderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, convertDpToPx(DEFAULT_BORDER_WIDTH))
+            borderWidth =
+                a.getDimensionPixelSize(R.styleable.CircleImageView_cv_borderWidth, Utils.convertDpToPx(DEFAULT_BORDER_WIDTH, context))
             a.recycle()
             setup()
         }
@@ -101,10 +101,11 @@ class CircleImageView @JvmOverloads constructor (
         initializeBitmap(drawable)
     }
 
-    @Dimension fun getBorderWidth(): Int = convertPxToDp(borderWidth)
+    @Dimension
+    fun getBorderWidth(): Int = Utils.convertPxToDp(borderWidth, context)
 
     fun setBorderWidth(@Dimension dp: Int) {
-        val width = convertDpToPx(dp)
+        val width = Utils.convertDpToPx(dp, context)
         if (borderWidth == width) return else borderWidth = width
         invalidate()
     }
@@ -261,7 +262,12 @@ class CircleImageView @JvmOverloads constructor (
                 textPaint.textSize = fontSize.toFloat()
                 with(canvas) {
                     drawColor(background)
-                    drawText(text!!, (width / 2).toFloat(), height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2), textPaint)
+                    drawText(
+                        text!!,
+                        (width / 2).toFloat(),
+                        height / 2 - ((textPaint.descent() + textPaint.ascent()) / 2),
+                        textPaint
+                    )
                     restoreToCount(count)
                 }
             }
@@ -278,7 +284,5 @@ class CircleImageView @JvmOverloads constructor (
             )
         }
 
-    private fun convertDpToPx(dp: Int)  = Math.round(dp * (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 
-    private fun convertPxToDp(px: Int) = Math.round(px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
 }
