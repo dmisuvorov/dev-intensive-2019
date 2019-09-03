@@ -117,8 +117,8 @@ class GroupActivity : AppCompatActivity() {
             isCloseIconVisible = true
             tag = user.id
             isClickable = true
-            closeIconTint = ColorStateList.valueOf(Color.WHITE)
-            chipBackgroundColor = ColorStateList.valueOf(getColor(R.color.color_primary_light))
+            closeIconTint = ColorStateList.valueOf(Utils.resolveAttributeTheme(this@GroupActivity, R.attr.colorChipCloseTint))
+            chipBackgroundColor = ColorStateList.valueOf(Utils.resolveAttributeTheme(this@GroupActivity, R.attr.colorChipGroupBackground))
             setTextColor(Color.WHITE)
         }
 

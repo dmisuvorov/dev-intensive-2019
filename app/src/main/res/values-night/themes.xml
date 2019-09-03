@@ -15,5 +15,20 @@
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/ActivityTransitions</item>
 
+        <item name="colorTitle">@android:color/white</item>
+        <item name="colorText">@color/color_gray</item>
+        <item name="colorToolbar">@color/color_selected_dark</item>
+        <item name="colorBackground">@color/color_background_dark</item>
+        <item name="colorItemView">@color/color_background_item_dark</item>
+        <item name="colorCounter">@color/color_gray_dark</item>
+        <item name="colorItemArchive">@color/color_gray_dark</item>
+        <item name="colorIndicator">@color/color_accent_night</item>
+        <item name="colorSwipeBackground">@color/color_accent_night</item>
+        <item name="colorSelected">@color/color_selected_dark</item>
+        <item name="colorSnackbarBackground">@android:color/white</item>
+        <item name="colorSnackbarText">@color/color_background_dark</item>
+        <item name="colorChipCloseTint">@color/color_gray</item>
+        <item name="colorChipGroupBackground">@color/color_background_item_dark</item>
+
     </style>
 </resources>

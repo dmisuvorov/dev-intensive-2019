@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import ru.skillbranch.devintensive.R
+import ru.skillbranch.devintensive.extensions.setBackgroundDrawable
+import ru.skillbranch.devintensive.extensions.setTextColor
 import ru.skillbranch.devintensive.ui.archive.ArchiveActivity
 import ru.skillbranch.devintensive.models.data.ChatType
 import ru.skillbranch.devintensive.ui.adapters.ChatAdapter
@@ -65,7 +67,10 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(this, ArchiveActivity::class.java)
                 startActivity(intent)
             } else {
-                Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(rv_chat_list, "Click on ${it.title}", Snackbar.LENGTH_LONG)
+                    .setBackgroundDrawable(R.drawable.bg_snackbar)
+                    .setTextColor(Utils.resolveAttributeTheme(this, R.attr.colorSnackbarText))
+                    .show()
             }
         }
         val customDivider = InsetDrawable(
@@ -81,9 +86,9 @@ class MainActivity : AppCompatActivity() {
         val touchCallback = ChatItemTouchHelperCallback(chatAdapter, false) { chatItem ->
             viewModel.addToArchive(chatItem.id)
             Snackbar.make(rv_chat_list, "Вы точно хотите добавить ${chatItem.title} в архив?", Snackbar.LENGTH_LONG)
-                .setAction("Отмена") {
-                    viewModel.restoreFromArchive(chatItem.id)
-                }
+                .setBackgroundDrawable(R.drawable.bg_snackbar)
+                .setTextColor(Utils.resolveAttributeTheme(this, R.attr.colorSnackbarText))
+                .setAction("Отмена") { viewModel.restoreFromArchive(chatItem.id) }
                 .show()
         }
         val touchHelper = ItemTouchHelper(touchCallback)

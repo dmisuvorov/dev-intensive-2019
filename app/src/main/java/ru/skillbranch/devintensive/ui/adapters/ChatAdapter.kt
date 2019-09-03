@@ -1,6 +1,5 @@
 package ru.skillbranch.devintensive.ui.adapters
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +14,7 @@ import kotlinx.android.synthetic.main.item_chat_single.*
 import ru.skillbranch.devintensive.R
 import ru.skillbranch.devintensive.models.data.ChatItem
 import ru.skillbranch.devintensive.models.data.ChatType
+import ru.skillbranch.devintensive.utils.Utils
 
 class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatAdapter.ChatItemViewHolder>() {
     companion object {
@@ -72,21 +72,23 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         diffResult.dispatchUpdatesTo(this)
     }
 
-    abstract inner class ChatItemViewHolder(convertView: View) : RecyclerView.ViewHolder(convertView), LayoutContainer {
+    abstract inner class ChatItemViewHolder(convertView: View) : RecyclerView.ViewHolder(convertView), LayoutContainer,
+        ItemTouchViewHolder {
         override val containerView: View?
             get() = itemView
+
+        override fun onItemSelected() {
+            itemView.setBackgroundColor(Utils.resolveAttributeTheme(itemView.context, R.attr.colorSelected))
+        }
+
+        override fun onItemCleared() {
+            itemView.setBackgroundColor(Utils.resolveAttributeTheme(itemView.context, R.attr.colorItemView))
+        }
 
         abstract fun bind(item: ChatItem, listener: (ChatItem) -> Unit)
     }
 
-    inner class SingleViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
+    inner class SingleViewHolder(convertView: View) : ChatItemViewHolder(convertView) {
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             if (item.avatar == null) {
@@ -118,14 +120,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
         }
     }
 
-    inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView), ItemTouchViewHolder {
-        override fun onItemSelected() {
-            itemView.setBackgroundColor(Color.LTGRAY)
-        }
-
-        override fun onItemCleared() {
-            itemView.setBackgroundColor(Color.WHITE)
-        }
+    inner class GroupViewHolder(convertView: View) : ChatItemViewHolder(convertView) {
 
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             iv_avatar_group.text = item.title[0].toString()
@@ -149,6 +144,7 @@ class ChatAdapter(val listener: (ChatItem) -> Unit) : RecyclerView.Adapter<ChatA
     }
 
     inner class ArchiveViewHolder(convertView: View) : ChatItemViewHolder(convertView) {
+
         override fun bind(item: ChatItem, listener: (ChatItem) -> Unit) {
             tv_title_archive.text = item.title
             tv_message_archive.text = item.shortDescription

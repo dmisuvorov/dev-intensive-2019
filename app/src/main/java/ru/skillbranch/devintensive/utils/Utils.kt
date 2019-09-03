@@ -2,6 +2,8 @@ package ru.skillbranch.devintensive.utils
 
 import android.content.Context
 import android.util.DisplayMetrics
+import android.util.TypedValue
+import ru.skillbranch.devintensive.R
 
 
 object Utils {
@@ -97,6 +99,12 @@ object Utils {
 
     fun convertPxToDp(px: Int, context: Context) =
         Math.round(px / (context.resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT))
+
+    fun resolveAttributeTheme(context: Context, attr: Int) : Int {
+        val typedValue = TypedValue()
+        context.theme.resolveAttribute(attr, typedValue, true)
+        return typedValue.data
+    }
 
     private fun namePattern(fullName: String?) : MatchName =
                                                             when {

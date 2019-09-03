@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/item_size"
                 android:padding="@dimen/spacing_normal_16"
-                android:background="@android:color/white">
+                android:background="?attr/colorItemView">
 
     <ImageView
             android:id="@+id/iv_avatar_archive"
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Архив чатов"
-            android:textColor="@color/color_primary"
+            android:textColor="?attr/colorTitle"
             android:fontFamily="sans-serif-medium"
             android:textSize="14sp"
             android:maxLines="1"
@@ -36,7 +36,7 @@
             android:visibility="gone"
             tools:text="John_Doe"
             tools:visibility="visible"
-            android:textColor="@color/color_primary"
+            android:textColor="?attr/colorTitle"
             android:fontFamily="sans-serif-medium"
             android:textSize="14sp"
             android:layout_toEndOf="@id/iv_avatar_archive"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Когда я проходил интенсив, я мало спал"
-            android:textColor="@color/color_gray_dark"
+            android:textColor="?attr/colorText"
             android:fontFamily="sans-serif-medium"
             android:textSize="14sp"
             android:layout_toEndOf="@id/tv_message_author_archive"
@@ -61,9 +61,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="10sp"
+            android:textColor="?attr/colorText"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:textColor="@color/color_gray_dark"
             tools:text="18:00"
     />
     <TextView
